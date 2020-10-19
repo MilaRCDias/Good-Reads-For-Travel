@@ -18,10 +18,26 @@ const App = () => {
   
 
 
+  // for testing input bar to insert value
+  const [input, setInput] = useState();
+  const [location, setLocation] = useState(undefined);
+ const coordinateInput = undefined;
+
+  const onChangeInput = (e) => {
+    const value = e.target.value.split(",");
+    setInput(value);
+  };
+
+  const onSubmit = () => {
+    console.log("submit");
+    setLocation(input);
+  }; 
+  // --------
+
+
 const handleChange = (event) => {
   setLanguageSelect(event.target.value);
 };
-
 
 
 
@@ -37,6 +53,21 @@ const handleChange = (event) => {
           <h1 className={style.logo}>GoodReads</h1>
           <h4 className={style.forTravel}>----- FOR TRAVEL -----</h4>
         </div>
+
+        <div>
+          <form>
+            <input
+              type="text"
+              placeholder="input"
+              onChange={onChangeInput}
+              value={input}
+            />
+            <button type="button" onClick={onSubmit}>
+              {" "}
+              go
+            </button>
+          </form>
+        </div>
         <FormControl variant="outlined" classes={{ root: style.formControl }}>
           <InputLabel id="language">Language</InputLabel>
           <Select
@@ -51,7 +82,10 @@ const handleChange = (event) => {
           </Select>
         </FormControl>
       </Grid>
-      <GoodRead />
+      <GoodRead
+        locationInput={location}
+        coordinateInput={coordinateInput}
+      />
     </Container>
   );
 };

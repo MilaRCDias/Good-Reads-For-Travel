@@ -4,7 +4,17 @@
   margin: 0 auto;
 }
 
-.headResults{
-      padding: 1.5rem;
+.headResults {
+  padding: 1.5rem;
+}
 
+.bookLangSelect {
+  width: 8rem;
+}
+
+.flexItem1 {
+  flex: 1;
+}
+.flexItem3 {
+  flex: 3;
 }
