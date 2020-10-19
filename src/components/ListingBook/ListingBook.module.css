@@ -1,0 +1,36 @@
+.listContainer {
+  background-color: #f2f2f250;
+  border-bottom: 1px solid lightgray;
+  padding: 1.5rem;
+}
+
+.coverWrap {
+  flex: 1;
+  height: 192px;
+}
+
+.coverImg {
+  object-fit: cover;
+}
+
+.infoWrap {
+  flex: 3;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.actionBtn {
+  color: #2f80ed;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+.bookInfo {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
