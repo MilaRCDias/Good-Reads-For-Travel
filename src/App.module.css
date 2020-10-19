@@ -1,0 +1,26 @@
+@import 'https://fonts.googleapis.com/css2?family=Shrikhand&display=swap';
+
+
+.mainContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-family: "Shrikhand", cursive;
+  line-height: 120%
+}
+
+.py3 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.forTravel{
+  font-style: italic; 
+  letter-spacing: 0.05rem; 
+  text-align: right;
+}
+.formControl{
+width: 8.5rem;
+}
