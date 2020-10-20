@@ -1,19 +1,22 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './index.css'
+import "./i18n";
 
 // const theme = createMuiTheme(MuiTheme)
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider >
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <Suspense fallback={<div>'loading'</div>}>
+      <ThemeProvider>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </Suspense>
   </React.StrictMode>,
   document.getElementById("root")
 );

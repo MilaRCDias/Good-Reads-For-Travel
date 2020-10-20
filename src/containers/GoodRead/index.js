@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import style from "./GoodRead.module.css";
 import axios from "axios";
 import Pagination from "@material-ui/lab/Pagination";
+import { useTranslation } from "react-i18next";
 
 import ListingBook from "../../components/ListingBook";
 
@@ -20,6 +21,7 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
   const itemsByPage = 5;
   const [listDataByPage, setListDataByPage] = useState();
   const [totalPage, setTotalPage] = useState();
+  const { t } = useTranslation();
 
   const handleClickPage = (e, value) => {
     setPage(value);
@@ -127,26 +129,24 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
           <Grid item className={style.flexItem3}>
             {" "}
             <h3>
-              Results for {locationInput}
+              {t("result_label")} {locationInput}
               <span>{totalSearch ? `(${totalSearch})` : null}</span>
             </h3>
           </Grid>
-         {/*  */}
-        
+          {/*  */}
         </Grid>
       </Grid>
-      <ListingBook
-        data={listDataByPage}
-        loading={loading}
-      />
-      {listDataByPage ? (
-        <Pagination
-          count={totalPage}
-          page={page}
-          onChange={handleClickPage}
-          className={style.pagination}
-        />
-      ) : null}
+      <ListingBook data={listDataByPage} loading={loading} />
+      <div>
+        {listDataByPage ? (
+          <Pagination
+            count={totalPage}
+            page={page}
+            onChange={handleClickPage}
+            className={style.pagination}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };

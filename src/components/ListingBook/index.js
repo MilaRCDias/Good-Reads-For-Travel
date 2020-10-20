@@ -2,11 +2,13 @@ import React from "react";
 // import PropTypes from 'prop-types';
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { useTranslation } from "react-i18next";
 
 import style from "./ListingBook.module.css";
 
 
   const ListingBook = ({ data, loading }) => {
+  const { t } = useTranslation();
 
 
   const coverUrl = "http://covers.openlibrary.org/b/isbn/";
@@ -18,8 +20,8 @@ import style from "./ListingBook.module.css";
   return (
     <>
       {loading
-        ? Array.from(new Array(3)).map((i) => (
-            <Grid container alignItems="center" className={style.listContainer}>
+        ? Array.from(new Array(3)).map((a,index) => (
+            <Grid container alignItems="center" className={style.listContainer} key={`key${index}`}>
               <Grid item className={style.coverWrap}>
                 <Skeleton
                   animation="wave"
@@ -67,19 +69,23 @@ import style from "./ListingBook.module.css";
                   </Grid>
                   <Grid item className={style.infoWrap}>
                     <h2>{book.title}</h2>
-                    <h5>by {book.author_name}</h5>
+                    <h5>
+                      {t("book_title_label")} {book.author_name}
+                    </h5>
                     <div className={style.bookInfo}>
                       <h6>
                         {" "}
-                        {book.subject ? "Subject:" + book.subject : null}
+                        {book.subject
+                          ? `${t("subject_label")} ${book.subject}`
+                          : null}
                       </h6>
                       <h6>
-                        Published in {book.first_publish_year}{" "}
+                        {t("published_in")} {book.first_publish_year}{" "}
                         <span>
                           {book.language === undefined
-                            ? `in ${1}`
-                            : `in ${book.language.length}`}{" "}
-                          languages
+                            ? `${t("label_in")} ${1}`
+                            : `${t("label_in")} ${book.language.length}`}{" "}
+                          {t("languages_label")}
                         </span>
                       </h6>
                     </div>

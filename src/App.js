@@ -5,8 +5,9 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import style from "./App.module.css";
-import GoodRead from './containers/GoodRead';
 import { Container } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
+import GoodRead from './containers/GoodRead';
 
 
 /**
@@ -14,14 +15,14 @@ import { Container } from "@material-ui/core";
  */
 
 const App = () => {
-  const [languageSelect, setLanguageSelect] = useState('eng');
+  const [languageSelect, setLanguageSelect] = useState('en');
   
-
+    const {i18n} = useTranslation();
 
   // for testing input bar to insert value
   const [input, setInput] = useState();
   const [location, setLocation] = useState(undefined);
- const coordinateInput = undefined;
+  const coordinateInput = undefined;
 
   const onChangeInput = (e) => {
     const value = e.target.value.split(",");
@@ -35,8 +36,9 @@ const App = () => {
   // --------
 
 
-const handleChange = (event) => {
+const handleChangeLang = (event) => {
   setLanguageSelect(event.target.value);
+  i18n.changeLanguage(event.target.value);
 };
 
 
@@ -74,18 +76,16 @@ const handleChange = (event) => {
             labelId="language"
             id="language"
             value={languageSelect}
-            onChange={handleChange}
+            onChange={handleChangeLang}
             label="Language"
           >
-            <MenuItem value="eng">English</MenuItem>
-            <MenuItem value="por">Português</MenuItem>
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="pt">Português</MenuItem>
+            <MenuItem value="fr">Français</MenuItem>
           </Select>
         </FormControl>
       </Grid>
-      <GoodRead
-        locationInput={location}
-        coordinateInput={coordinateInput}
-      />
+      <GoodRead locationInput={location} coordinateInput={coordinateInput} />
     </Container>
   );
 };
