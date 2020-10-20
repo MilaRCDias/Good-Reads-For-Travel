@@ -2,11 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import style from "./GoodRead.module.css";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
+import Pagination from "@material-ui/lab/Pagination";
+
 import ListingBook from "../../components/ListingBook";
 
 /**
@@ -15,56 +13,83 @@ import ListingBook from "../../components/ListingBook";
  */
 
 const GoodRead = ({ locationInput, coordinateInput }) => {
-  const [listBookLang, setListBookLang] = useState();
-  const [selectBookLang, setSelectBookLang] = useState();
   const [displayData, setDisplayData] = useState();
   const [loading, setLoading] = useState(false);
-  /**
-   *
-   * @param {*} items
-   */
-  const getLang = (items) => {
-    let lang = new Set();
+  const [totalSearch, setTotalSearch] = useState();
+  const [page, setPage] = useState(1);
+  const itemsByPage = 5;
+  const [listDataByPage, setListDataByPage] = useState();
+  const [totalPage, setTotalPage] = useState();
 
-    items.filter((item)=> {
-      if (item.language !== undefined) {
-        item.language.forEach((name) => {
-          lang.add(name);
-        });
-      }
-    });
-    setListBookLang(Array.from(lang));
+  const handleClickPage = (e, value) => {
+    setPage(value);
   };
 
+
   /**
+   *  Update data to show on page
+   *  when page are change
    *
+   */
+  useEffect(() => {
+    if (!displayData) return;
+
+    handleChangePage(displayData, page, itemsByPage);
+  }, [page, displayData]);
+
+  /**
+   *  Function to handle page change
+   *  @returns filtered data array to show on page
+   *
+   * @param {array} data initial data array
+   * @param {number} page current page
+   * @param {number} items total items displayed by page
+   *
+   */
+  const handleChangePage = (data, page, items) => {
+    const start = (page - 1) * items;
+    const end = start + items;
+
+    const dataSliced = data.slice(start, end);
+
+    return setListDataByPage(dataSliced);
+  };
+
+  
+
+  /**
+   * Http request to get search of books
    * @param {*} location
    */
   const getBooks = (location) => {
     setLoading(true);
     const city = location[0].split(" ").join("+").toLowerCase();
-    // const country = location[1].split(" ").join("+").toLowerCase();
+    const country = location[1]
+      ? location[1].split(" ").join("+").toLowerCase()
+      : null;
 
     axios
-      .get(`http://openlibrary.org/search.json?q=${city}&limit=10`)
+      .get(
+        `http://openlibrary.org/search.json?q=${
+          country ? `${city}+${country}` : city
+        }`
+      )
       .then((response) => {
-        console.log(response.data.docs);
         setDisplayData(response.data.docs);
-        getLang(response.data.docs);
         setLoading(false);
+        setTotalSearch(response.data.docs.length);
+        setTotalPage(Math.ceil(response.data.docs.length / 5));
       })
       .catch((error) => {
-        console.log(error);
         throw error;
       });
   };
 
   /**
-   *
+   * Http request to reverse coordinates into address
    * @param {*} coordinates
    */
   const reverseGeolocation = (coordinates) => {
-
     axios
       .get(
         `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_GEO_API_KEY}&lat=${coordinates[0]}&lon=${coordinates[1]}&format=json`
@@ -77,6 +102,7 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
       });
   };
 
+  // TODO single source of input value
   useEffect(() => {
     if (locationInput === undefined && coordinateInput === undefined) return;
 
@@ -85,10 +111,8 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
     if (coordinateInput) reverseGeolocation(coordinateInput);
   }, [locationInput, coordinateInput]);
 
-  /** Function to handle change book language selection */
-  const onChangeBookLang = (e) => {
-    setSelectBookLang(e.target.value);
-  };
+
+  
 
 
   return (
@@ -103,58 +127,26 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
           <Grid item className={style.flexItem3}>
             {" "}
             <h3>
-              Results for
-              <a href="https://google.com">City name</a>
-              <span>(238)</span>
+              Results for {locationInput}
+              <span>{totalSearch ? `(${totalSearch})` : null}</span>
             </h3>
           </Grid>
-          <Grid item className={style.flexItem1}>
-            <FormControl
-              variant="outlined"
-              classes={{ root: style.bookLangSelect }}
-            >
-              <InputLabel id="book-language">Available</InputLabel>
-              <Select
-                labelId="book-language"
-                id="book-language"
-                value={selectBookLang}
-                onChange={onChangeBookLang}
-                label="Available"
-              >
-                {listBookLang &&
-                  listBookLang.map((lang) => (
-                    <MenuItem value={lang}>{lang}</MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item>
-            <FormControl
-              variant="outlined"
-              classes={{ root: style.bookLangSelect }}
-            >
-              <InputLabel id="book-language">Sort by</InputLabel>
-              <Select
-                labelId="book-language"
-                id="book-language"
-                value={selectBookLang}
-                onChange={onChangeBookLang}
-                label="Available"
-              >
-                {listBookLang &&
-                  listBookLang.map((lang) => (
-                    <MenuItem value={lang}>{lang}</MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </Grid>
+         {/*  */}
+        
         </Grid>
       </Grid>
       <ListingBook
-        data={displayData}
-        selectBookLang={selectBookLang}
+        data={listDataByPage}
         loading={loading}
       />
+      {listDataByPage ? (
+        <Pagination
+          count={totalPage}
+          page={page}
+          onChange={handleClickPage}
+          className={style.pagination}
+        />
+      ) : null}
     </div>
   );
 };
