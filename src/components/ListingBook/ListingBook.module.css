@@ -29,8 +29,9 @@
 }
 
 .bookInfo {
-  padding-top: 1.5rem;
+  width: 75%;
   padding-bottom: 1.5rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  margin-left:0;
 }
