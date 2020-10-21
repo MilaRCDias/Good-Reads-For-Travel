@@ -1,6 +1,12 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+
+
+/**
+ *  File with translations and setup of i18next internalization
+ */
+
 const resources = {
   en: {
     translation: {
@@ -10,6 +16,12 @@ const resources = {
       label_in: "in",
       languages_label: "languages",
       subject_label: "Subject:",
+      sortby_label: "Sort by",
+      sortby_AZ: "A-Z",
+      sortby_ZA: "Z-A",
+      label_english: "English",
+      label_french: "Français",
+      label_portuguese: "Português",
     },
   },
   pt: {
@@ -20,6 +32,12 @@ const resources = {
       label_in: "em",
       languages_label: "idiomas",
       subject_label: "Assunto:",
+      sortby_label: "Ordenar por",
+      sortby_AZ: "A-Z",
+      sortby_ZA: "Z-A",
+      label_english: "English",
+      label_french: "Français",
+      label_portuguese: "Português",
     },
   },
 
@@ -31,6 +49,12 @@ const resources = {
       label_in: "dans",
       languages_label: "langues",
       subject_label: "Sujet:",
+      sortby_label: "Trier par",
+      sortby_AZ: "A-Z",
+      sortby_ZA: "Z-A",
+      label_english: "English",
+      label_french: "Français",
+      label_portuguese: "Português",
     },
   },
 };

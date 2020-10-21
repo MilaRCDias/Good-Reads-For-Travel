@@ -11,7 +11,7 @@ const theme = createMuiTheme();
 
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<div>'loading'</div>}>
+    <Suspense fallback={null}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />

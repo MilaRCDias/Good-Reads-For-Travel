@@ -1,17 +1,15 @@
 import React from "react";
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Grid from "@material-ui/core/Grid";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useTranslation } from "react-i18next";
-
 import style from "./ListingBook.module.css";
 
 const ListingBook = ({ data, loading }) => {
   const { t } = useTranslation();
 
-  const coverUrl = "http://covers.openlibrary.org/b/isbn/";
-  const defaultImage =
-    "https://piotrkowalski.pw/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png";
+  const coverUrl = process.env.REACT_APP_COVER_IMAGE_URL;
+  const defaultImage = process.env.REACT_APP_DEFAULT_IMAGE_URL;
 
   return (
     <>
@@ -89,10 +87,6 @@ const ListingBook = ({ data, loading }) => {
                         </span>
                       </h6>
                     </div>
-
-                    {/*  <a className={style.actionBtn} href="google.com">
-                        VIEW MORE
-                      </a> */}
                   </Grid>
                 </Grid>
               </div>
@@ -102,6 +96,13 @@ const ListingBook = ({ data, loading }) => {
   );
 };
 
-ListingBook.propTypes = {};
+ListingBook.defaultProps = {
+  data: [],
+};
+
+ListingBook.propTypes = {
+  data: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 export default ListingBook;

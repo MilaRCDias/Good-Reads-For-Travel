@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import style from "./GoodRead.module.css";
 import axios from "axios";
@@ -164,21 +164,21 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
               <span>{totalSearch ? `(${totalSearch})` : null}</span>
             </h3>
           </Grid>
-          {/*  */}
-          Sort by
-          <Grid item >
+          {t("sortby_label")}
+          <Grid item>
             <FormControl classes={{ root: style.bookLangSelect }}>
-             
-            <Select
+              <Select
                 variant="outlined"
-                label="Sort by"
+                label={t("sortby_label")}
                 id="select"
                 value={selectBookSort}
                 onChange={onChangeBookSort}
               >
-                <MenuItem value="" disabled>Sort by</MenuItem>
-                <MenuItem value="AZ">A-Z</MenuItem>
-                <MenuItem value="ZA">Z-A</MenuItem>
+                <MenuItem value="" disabled>
+                  {t("sortby_label")}
+                </MenuItem>
+                <MenuItem value="AZ">{t("sortby_AZ")}</MenuItem>
+                <MenuItem value="ZA">{t("sortby_ZA")}</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -198,5 +198,7 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
     </div>
   );
 };
+
+GoodRead.propTypes = {};
 
 export default GoodRead;
