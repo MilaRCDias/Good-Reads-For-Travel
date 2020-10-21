@@ -9,7 +9,7 @@ const ListingBook = ({ data, loading }) => {
   const { t } = useTranslation();
 
   const coverUrl = process.env.REACT_APP_COVER_IMAGE_URL;
-  const defaultImage = process.env.REACT_APP_DEFAULT_IMAGE_URL;
+  const defaultImage = "https://bit.ly/2TbQXhk";
 
   return (
     <>
@@ -21,7 +21,7 @@ const ListingBook = ({ data, loading }) => {
               className={style.listContainer}
               key={`key${index}`}
             >
-              <Grid item className={style.coverWrap}>
+              <Grid item className={style.coverWrap} xs={4}>
                 <Skeleton
                   animation="wave"
                   variant="rect"
@@ -51,7 +51,7 @@ const ListingBook = ({ data, loading }) => {
                   alignItems="center"
                   className={style.listContainer}
                 >
-                  <Grid item className={style.coverWrap}>
+                  <Grid item className={style.coverWrap} xs={4}>
                     <img
                       height="100%"
                       width="100%"

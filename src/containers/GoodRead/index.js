@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
+import Hidden from "@material-ui/core/Hidden";
+import {CustomizedSelect} from './helpers'
 import {sortDataAlphabetic} from './helpers';
 import ListingBook from "../../components/ListingBook";
 
@@ -24,7 +26,7 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
   const [listDataByPage, setListDataByPage] = useState();
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const [selectBookSort, setSelectBookSort] = useState("");
+  const [selectBookSort, setSelectBookSort] = useState("sort");
   const itemsByPage = 5;
 
   const { t } = useTranslation();
@@ -157,32 +159,42 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
         className={style.headResults}
       >
         <Grid container alignItems="center" justify="space-between">
-          <Grid item className={style.flexItem3}>
+          <Grid item xs={12} sm={9} className={style.flexItem3}>
             {" "}
             <h3>
               {t("result_label")} {locationInput}
               <span>{totalSearch ? `(${totalSearch})` : null}</span>
             </h3>
           </Grid>
-          {t("sortby_label")}
-          <Grid item>
-            <FormControl classes={{ root: style.bookLangSelect }}>
+          <Grid item xs={12} sm={3} className={style.flexItem1}>
+            <FormControl>
               <Select
                 variant="outlined"
                 label={t("sortby_label")}
                 id="select"
                 value={selectBookSort}
                 onChange={onChangeBookSort}
+                input={<CustomizedSelect />}
               >
-                <MenuItem value="" disabled>
+                <MenuItem value="sort" selected disabled>
                   {t("sortby_label")}
                 </MenuItem>
-                <MenuItem value="AZ">{t("sortby_AZ")}</MenuItem>
-                <MenuItem value="ZA">{t("sortby_ZA")}</MenuItem>
+
+                <MenuItem value="AZ" disabled={!displayData}>
+                  {t("sortby_AZ")}
+                </MenuItem>
+                <MenuItem value="ZA" disabled={!displayData}>
+                  {t("sortby_ZA")}
+                </MenuItem>
               </Select>
             </FormControl>
           </Grid>
+          {/*           <Hidden xsDown>
+           */}{" "}
+          {/*           </Hidden>
+           */}
         </Grid>
+       
       </Grid>
       <ListingBook data={listDataByPage} loading={loading} />
       <div>

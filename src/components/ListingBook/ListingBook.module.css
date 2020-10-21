@@ -35,3 +35,13 @@
   flex-direction: column;
   margin-left:0;
 }
+
+@media (max-width: 600px){
+  .listContainer{
+    padding:0;
+  }
+  
+  .infoWrap{
+    padding: 0.2rem;
+  }
+}
