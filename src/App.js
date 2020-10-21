@@ -20,7 +20,7 @@ import GoodRead from "./containers/GoodRead";
 const App = () => {
   const [languageSelect, setLanguageSelect] = useState("en");
 
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // for testing input bar to insert value
   const [userInput, setUserInput] = useState("Amsterdam");
@@ -37,10 +37,16 @@ const App = () => {
   };
   // --------
 
+  /**
+   *  Language selection
+   * @param {*} event 
+   */
   const handleChangeLang = (event) => {
     setLanguageSelect(event.target.value);
     i18n.changeLanguage(event.target.value);
   };
+
+
 
   return (
     <Container>
@@ -69,20 +75,20 @@ const App = () => {
           </form>
         </div>
         <FormControl variant="outlined" classes={{ root: style.formControl }}>
-          <InputLabel id="language">Language</InputLabel>
+          <InputLabel id="language">{t("languages_label")}</InputLabel>
           <Select
             labelId="language"
             id="language"
             value={languageSelect}
             onChange={handleChangeLang}
-           
           >
-            <MenuItem value="en">English</MenuItem>
-            <MenuItem value="pt">Português</MenuItem>
-            <MenuItem value="fr">Français</MenuItem>
+            <MenuItem value="en">{t("label_english")}</MenuItem>
+            <MenuItem value="pt">{t("label_portuguese")}</MenuItem>
+            <MenuItem value="fr">{t("label_french")}</MenuItem>
           </Select>
         </FormControl>
       </Grid>
+      {/* GOOD READS FOR TRAVEL COMPONENT   */}
       <GoodRead locationInput={location} coordinateInput={coordinateInput} />
     </Container>
   );
