@@ -6,22 +6,23 @@ import { useTranslation } from "react-i18next";
 
 import style from "./ListingBook.module.css";
 
-
-  const ListingBook = ({ data, loading }) => {
+const ListingBook = ({ data, loading }) => {
   const { t } = useTranslation();
 
-
   const coverUrl = "http://covers.openlibrary.org/b/isbn/";
-  const defaultImage ="https://piotrkowalski.pw/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png";
-  
-  
-
+  const defaultImage =
+    "https://piotrkowalski.pw/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png";
 
   return (
     <>
       {loading
-        ? Array.from(new Array(3)).map((a,index) => (
-            <Grid container alignItems="center" className={style.listContainer} key={`key${index}`}>
+        ? Array.from(new Array(3)).map((a, index) => (
+            <Grid
+              container
+              alignItems="center"
+              className={style.listContainer}
+              key={`key${index}`}
+            >
               <Grid item className={style.coverWrap}>
                 <Skeleton
                   animation="wave"
@@ -46,12 +47,11 @@ import style from "./ListingBook.module.css";
           ))
         : data?.map((book) => {
             return (
-              <>
+              <div key={`${book.isbn}`}>
                 <Grid
                   container
                   alignItems="center"
                   className={style.listContainer}
-                  key={`${book.key}`}
                 >
                   <Grid item className={style.coverWrap}>
                     <img
@@ -95,7 +95,7 @@ import style from "./ListingBook.module.css";
                       </a> */}
                   </Grid>
                 </Grid>
-              </>
+              </div>
             );
           })}
     </>

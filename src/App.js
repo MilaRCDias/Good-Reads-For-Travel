@@ -7,41 +7,40 @@ import MenuItem from "@material-ui/core/MenuItem";
 import style from "./App.module.css";
 import { Container } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import GoodRead from './containers/GoodRead';
-
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import SearchButton from '@material-ui/icons/Search';
+  
+import GoodRead from "./containers/GoodRead";
 
 /**
  * Simple Page structure with search bar and language selection
  */
 
 const App = () => {
-  const [languageSelect, setLanguageSelect] = useState('en');
-  
-    const {i18n} = useTranslation();
+  const [languageSelect, setLanguageSelect] = useState("en");
+
+  const { i18n } = useTranslation();
 
   // for testing input bar to insert value
-  const [input, setInput] = useState();
+  const [userInput, setUserInput] = useState("Amsterdam");
   const [location, setLocation] = useState(undefined);
   const coordinateInput = undefined;
 
   const onChangeInput = (e) => {
-    const value = e.target.value.split(",");
-    setInput(value);
+    setUserInput(e.target.value);
   };
 
   const onSubmit = () => {
-    console.log("submit");
-    setLocation(input);
-  }; 
+    const value = userInput.split(",");
+    setLocation(value);
+  };
   // --------
 
-
-const handleChangeLang = (event) => {
-  setLanguageSelect(event.target.value);
-  i18n.changeLanguage(event.target.value);
-};
-
-
+  const handleChangeLang = (event) => {
+    setLanguageSelect(event.target.value);
+    i18n.changeLanguage(event.target.value);
+  };
 
   return (
     <Container>
@@ -58,16 +57,15 @@ const handleChangeLang = (event) => {
 
         <div>
           <form>
-            <input
-              type="text"
-              placeholder="input"
+            <TextField
+              id="userInput"
               onChange={onChangeInput}
-              value={input}
+              value={userInput}
+              variant="outlined"
             />
-            <button type="button" onClick={onSubmit}>
-              {" "}
-              go
-            </button>
+            <IconButton aria-label="button" onClick={onSubmit}>
+              <SearchButton />
+            </IconButton>
           </form>
         </div>
         <FormControl variant="outlined" classes={{ root: style.formControl }}>
@@ -77,7 +75,7 @@ const handleChangeLang = (event) => {
             id="language"
             value={languageSelect}
             onChange={handleChangeLang}
-            label="Language"
+           
           >
             <MenuItem value="en">English</MenuItem>
             <MenuItem value="pt">Português</MenuItem>

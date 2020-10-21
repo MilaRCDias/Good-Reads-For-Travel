@@ -1,18 +1,18 @@
-import React, {Suspense} from 'react';
-import ReactDOM from 'react-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import './index.css'
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import "./index.css";
 import "./i18n";
 
-// const theme = createMuiTheme(MuiTheme)
+const theme = createMuiTheme();
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>'loading'</div>}>
-      <ThemeProvider>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />
       </ThemeProvider>
