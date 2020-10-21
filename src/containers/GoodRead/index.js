@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
@@ -8,10 +9,13 @@ import { useTranslation } from "react-i18next";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import Hidden from "@material-ui/core/Hidden";
 import {CustomizedSelect} from './helpers'
 import {sortDataAlphabetic} from './helpers';
 import ListingBook from "../../components/ListingBook";
+
+
+
+
 
 /**
  *  GOOD READ WIDGET
@@ -19,8 +23,9 @@ import ListingBook from "../../components/ListingBook";
  *
  */
 
-const GoodRead = ({ locationInput, coordinateInput }) => {
+const GoodRead = ({ locationInput }) => {
   const [loading, setLoading] = useState(false);
+  const[searchDestination,setSearchDestination]=useState('');
   const [totalSearch, setTotalSearch] = useState();
   const [displayData, setDisplayData] = useState();
   const [listDataByPage, setListDataByPage] = useState();
@@ -30,7 +35,6 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
   const itemsByPage = 5;
 
   const { t } = useTranslation();
-
 
 
   /**
@@ -79,7 +83,8 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
    */
   const getBooks = (location) => {
     setLoading(true);
-    const city = location[0].split(" ").join("+").toLowerCase();
+    setSearchDestination(`${location[0]} ${location[1]?location[1]:''}`);
+    const city = location?.[0].split(" ").join("+").toLowerCase();
     const country = location[1]
       ? location[1].split(" ").join("+").toLowerCase()
       : null;
@@ -120,16 +125,18 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
   };
 
 /**
- * 
+ *  Hook receives user input 
+ *  if coordinates first reverse geolocation
+ *  if string search for books
+ *   
  */
-  // TODO single source of input value
   useEffect(() => {
-    if (locationInput === undefined && coordinateInput === undefined) return;
+    if (locationInput === undefined) return;
+    const isNumber = parseInt(locationInput?.[0]);
+    if (isNumber)reverseGeolocation(locationInput);
+    if (!isNumber)getBooks(locationInput);
 
-    if (locationInput) getBooks(locationInput);
-
-    if (coordinateInput) reverseGeolocation(coordinateInput);
-  }, [locationInput, coordinateInput]);
+  }, [locationInput]);
 
 
   
@@ -150,6 +157,8 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
     setLoading(false);
   };
 
+  
+
   return (
     <div className={style.main}>
       <Grid
@@ -162,7 +171,7 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
           <Grid item xs={12} sm={9} className={style.flexItem3}>
             {" "}
             <h3>
-              {t("result_label")} {locationInput}
+              {t("result_label")} {searchDestination}
               <span>{totalSearch ? `(${totalSearch})` : null}</span>
             </h3>
           </Grid>
@@ -189,15 +198,12 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
               </Select>
             </FormControl>
           </Grid>
-          {/*           <Hidden xsDown>
-           */}{" "}
-          {/*           </Hidden>
+          {/*   display option
            */}
         </Grid>
-       
       </Grid>
       <ListingBook data={listDataByPage} loading={loading} />
-      <div>
+      <div className={style.wrapPagination}>
         {listDataByPage ? (
           <Pagination
             count={totalPage}
@@ -211,6 +217,10 @@ const GoodRead = ({ locationInput, coordinateInput }) => {
   );
 };
 
-GoodRead.propTypes = {};
+
+
+GoodRead.propTypes = {
+  locationInput: PropTypes.array,
+};
 
 export default GoodRead;

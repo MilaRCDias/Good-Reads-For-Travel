@@ -18,14 +18,16 @@ import GoodRead from "./containers/GoodRead";
  */
 
 const App = () => {
+
+  /**
+   * For display/test propose, this single page was created
+   * with change language selection
+   * and search input for user
+   */
   const [languageSelect, setLanguageSelect] = useState("en");
-
   const { t, i18n } = useTranslation();
-
-  // for testing input bar to insert value
   const [userInput, setUserInput] = useState("Amsterdam");
-  const [location, setLocation] = useState(undefined);
-  const coordinateInput = undefined;
+  const [location, setLocation] = useState();
 
   const onChangeInput = (e) => {
     setUserInput(e.target.value);
@@ -35,12 +37,7 @@ const App = () => {
     const value = userInput.split(",");
     setLocation(value);
   };
-  // --------
 
-  /**
-   *  Language selection
-   * @param {*} event 
-   */
   const handleChangeLang = (event) => {
     setLanguageSelect(event.target.value);
     i18n.changeLanguage(event.target.value);
@@ -88,8 +85,8 @@ const App = () => {
           </Select>
         </FormControl>
       </Grid>
-      {/* GOOD READS FOR TRAVEL COMPONENT   */}
-      <GoodRead locationInput={location} coordinateInput={coordinateInput} />
+      {/* **** GOOD READS FOR TRAVEL COMPONENT  **** */}
+      <GoodRead locationInput={location} />
     </Container>
   );
 };

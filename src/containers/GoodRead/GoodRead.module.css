@@ -9,6 +9,10 @@
   padding: 1.5rem;
 }
 
+.wrapPagination{
+  display: flex;
+  justify-content: center;
+}
 .pagination{
   margin: 1.5rem;
 }
