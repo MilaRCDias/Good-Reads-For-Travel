@@ -9,13 +9,10 @@ import { useTranslation } from "react-i18next";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import {CustomizedSelect} from './helpers'
-import {sortDataAlphabetic} from './helpers';
+import { CustomizedSelect } from "./helpers";
+import { sortDataAlphabetic } from "./helpers";
 import ListingBook from "../../components/ListingBook";
-
-
-
-
+import EmptyState from "../EmptyState";
 
 /**
  *  GOOD READ WIDGET
@@ -25,7 +22,7 @@ import ListingBook from "../../components/ListingBook";
 
 const GoodRead = ({ locationInput }) => {
   const [loading, setLoading] = useState(false);
-  const[searchDestination,setSearchDestination]=useState('');
+  const [searchDestination, setSearchDestination] = useState("");
   const [totalSearch, setTotalSearch] = useState();
   const [displayData, setDisplayData] = useState();
   const [listDataByPage, setListDataByPage] = useState();
@@ -35,7 +32,6 @@ const GoodRead = ({ locationInput }) => {
   const itemsByPage = 5;
 
   const { t } = useTranslation();
-
 
   /**
    *  Update data to show on page
@@ -69,13 +65,12 @@ const GoodRead = ({ locationInput }) => {
   /**
    * Function to handle click to change page
    * Sets the page state
-   * @param {*} e 
-   * @param {*} value 
+   * @param {*} e
+   * @param {*} value
    */
-    const handleClickPage = (e, value) => {
-      setPage(value);
-    };
-
+  const handleClickPage = (e, value) => {
+    setPage(value);
+  };
 
   /**
    * Http request to get search of books
@@ -83,7 +78,7 @@ const GoodRead = ({ locationInput }) => {
    */
   const getBooks = (location) => {
     setLoading(true);
-    setSearchDestination(`${location[0]} ${location[1]?location[1]:''}`);
+    setSearchDestination(`${location[0]} ${location[1] ? location[1] : ""}`);
     const city = location?.[0].split(" ").join("+").toLowerCase();
     const country = location[1]
       ? location[1].split(" ").join("+").toLowerCase()
@@ -108,7 +103,7 @@ const GoodRead = ({ locationInput }) => {
 
   /**
    * Http request to reverse coordinates into address
-   * 
+   *
    * @param {*} coordinates
    */
   const reverseGeolocation = (coordinates) => {
@@ -124,26 +119,22 @@ const GoodRead = ({ locationInput }) => {
       });
   };
 
-/**
- *  Hook receives user input 
- *  if coordinates first reverse geolocation
- *  if string search for books
- *   
- */
+  /**
+   *  Hook receives user input
+   *  if coordinates first reverse geolocation
+   *  if string search for books
+   *
+   */
   useEffect(() => {
     if (locationInput === undefined) return;
     const isNumber = parseInt(locationInput?.[0]);
-    if (isNumber)reverseGeolocation(locationInput);
-    if (!isNumber)getBooks(locationInput);
-
+    if (isNumber) reverseGeolocation(locationInput);
+    if (!isNumber) getBooks(locationInput);
   }, [locationInput]);
-
-
-  
 
   /**
    * Function to handle the sorting selection
-   * @param {*} e 
+   * @param {*} e
    */
   const onChangeBookSort = (e) => {
     let sortedData;
@@ -156,6 +147,7 @@ const GoodRead = ({ locationInput }) => {
 
     setLoading(false);
   };
+
 
   
 
@@ -198,11 +190,16 @@ const GoodRead = ({ locationInput }) => {
               </Select>
             </FormControl>
           </Grid>
-          {/*   display option
-           */}
+         
         </Grid>
       </Grid>
-      <ListingBook data={listDataByPage} loading={loading} />
+      <div>
+        {locationInput ? (
+          <ListingBook data={listDataByPage} loading={loading} />
+        ) : (
+          <EmptyState />
+        )}
+      </div>
       <div className={style.wrapPagination}>
         {listDataByPage ? (
           <Pagination
@@ -216,8 +213,6 @@ const GoodRead = ({ locationInput }) => {
     </div>
   );
 };
-
-
 
 GoodRead.propTypes = {
   locationInput: PropTypes.array,
