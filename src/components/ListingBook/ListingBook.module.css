@@ -1,47 +1,18 @@
 .listContainer {
   background-color: #f2f2f250;
   border-bottom: 1px solid lightgray;
-  padding: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem; 
+ 
+}
+.listConteinerGrid{
+  min-height: 200px;
 }
 
-.coverWrap {
-  flex: 1;
-  height: 192px;
-}
 
 .coverImg {
   object-fit: cover;
+  height: 200px;
 }
 
-.infoWrap {
-  flex: 3;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
 
-.actionBtn {
-  color: #2f80ed;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  padding: 0.5rem 1rem;
-}
-
-.bookInfo {
-  width: 75%;
-  padding-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  margin-left:0;
-}
-
-@media (max-width: 600px){
-  .listContainer{
-    padding:0;
-  }
-  
-  .infoWrap{
-    padding: 0.2rem;
-  }
-}

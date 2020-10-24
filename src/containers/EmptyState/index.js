@@ -19,11 +19,11 @@ import animation from '../../assets/animation/reading-clouds.json';
   };
 
     return (
-    <div>
+
         <Lottie options={defaultOptions}
             width={300}
          />
-    </div>
+ 
   );
 };
 

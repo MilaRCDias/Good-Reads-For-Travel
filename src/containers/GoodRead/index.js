@@ -1,38 +1,51 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Grid from "@material-ui/core/Grid";
 import style from "./GoodRead.module.css";
 import axios from "axios";
 import Pagination from "@material-ui/lab/Pagination";
 import { useTranslation } from "react-i18next";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  TextField,
+  InputLabel,
+  Grid,
+  Hidden,
+  Box
+} from "@material-ui/core";
 import { CustomizedSelect } from "./helpers";
-import { sortDataAlphabetic } from "./helpers";
 import ListingBook from "../../components/ListingBook";
 import EmptyState from "../EmptyState";
+
+
 
 /**
  *  GOOD READ WIDGET
  *  Container component of Good Reads for travel
  *  @param {array} locationInput - it accepts: (city),(city,country) or(latitude,longitude)
+ *  @param {number} searchLimit 
+ *  @param {boolean} hasImage
+ *  @param {boolean} hasSubject
  */
 
-const GoodRead = ({ locationInput }) => {
+const GoodRead = ({ locationInput, hasImage,hasSubject, searchLimit=5, userLimitSearch=true}) => {
   const [loading, setLoading] = useState(false);
   const [searchDestination, setSearchDestination] = useState("");
   const [totalSearch, setTotalSearch] = useState();
   const [displayData, setDisplayData] = useState();
-  const [listDataByPage, setListDataByPage] = useState();
+  const [destination, setDestination] = useState()
+  const [offset, setOffset] = useState(0);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
-  const [selectBookSort, setSelectBookSort] = useState("sort");
-  const itemsByPage = 5;
-
+  const [selectBookFilter, setSelectBookFilter] = useState("travel");
+  const [searchLimitPage, setSearchLimitPage] = useState(searchLimit);
+  const [selectedDisplay , setSelectedDisplay] = useState(true)
   const { t } = useTranslation();
-
+const startItensByPage = (searchLimitPage*page) - searchLimitPage + 1;
+const endItensByPage =
+  page === totalPage ? totalSearch : searchLimitPage * page;
   /**
    *  Update data to show on page
    *  when page are change
@@ -41,8 +54,8 @@ const GoodRead = ({ locationInput }) => {
   useEffect(() => {
     if (!displayData) return;
 
-    handlePagination(displayData, page, itemsByPage);
-  }, [page, displayData]);
+    getBooks(destination);
+  }, [offset, selectBookFilter, searchLimitPage]);
 
   /**
    *  Function to handle page change
@@ -53,28 +66,34 @@ const GoodRead = ({ locationInput }) => {
    * @param {number} items total items displayed by page
    *
    */
-  const handlePagination = (data, page, items) => {
-    const start = (page - 1) * items;
-    const end = start + items;
-
-    const dataSliced = data.slice(start, end);
-
-    return setListDataByPage(dataSliced);
+  const handlePagination = (page, searchLimitPage) => {
+    const offset = (page - 1) * searchLimitPage;
+    return setOffset(offset);
   };
+
+/**
+ * 
+ * @param {object} event 
+ */
+  const onChangeBookFilter =(event)=>{
+    setSelectBookFilter(event.target.value)
+  }
 
   /**
    * Function to handle click to change page
    * Sets the page state
-   * @param {*} e
-   * @param {*} value
+   * @param {object} event
+   * @param {number} value
    */
-  const handleClickPage = (e, value) => {
+  const handleClickPage = (event, value) => {
     setPage(value);
+    handlePagination(value, searchLimitPage);
+
   };
 
   /**
    * Http request to get search of books
-   * @param {*} location
+   * @param {array} location
    */
   const getBooks = (location) => {
     setLoading(true);
@@ -88,13 +107,13 @@ const GoodRead = ({ locationInput }) => {
       .get(
         `http://openlibrary.org/search.json?q=${
           country ? `${city}+${country}` : city
-        }`
+        }+${selectBookFilter}&limit=${searchLimitPage}&offset=${offset}`
       )
       .then((response) => {
         setDisplayData(response.data.docs);
         setLoading(false);
-        setTotalSearch(response.data.docs.length);
-        setTotalPage(Math.ceil(response.data.docs.length / 5));
+        setTotalSearch(response.data.numFound);
+        setTotalPage(Math.ceil(response.data.numFound / searchLimitPage));
       })
       .catch((error) => {
         throw error;
@@ -127,26 +146,13 @@ const GoodRead = ({ locationInput }) => {
    */
   useEffect(() => {
     if (locationInput === undefined) return;
+    setDestination(locationInput);
     const isNumber = parseInt(locationInput?.[0]);
     if (isNumber) reverseGeolocation(locationInput);
     if (!isNumber) getBooks(locationInput);
   }, [locationInput]);
 
-  /**
-   * Function to handle the sorting selection
-   * @param {*} e
-   */
-  const onChangeBookSort = (e) => {
-    let sortedData;
-    setLoading(true);
-    setSelectBookSort(e.target.value);
-    setPage(1);
-
-    sortedData = sortDataAlphabetic(displayData, e.target.value);
-    handlePagination(sortedData, page, itemsByPage);
-
-    setLoading(false);
-  };
+console.log(displayData)
 
   return (
     <div className={style.main}>
@@ -157,47 +163,114 @@ const GoodRead = ({ locationInput }) => {
         className={style.headResults}
       >
         <Grid container alignItems="center" justify="space-between">
-          <Grid item xs={12} sm={9} className={style.flexItem3}>
+          <Grid item xs={12} sm={6}>
             {" "}
             <h3>
-              {t("result_label")} {searchDestination}
+              {locationInput
+                ? `${t("result_label")} ${searchDestination}`
+                : null}
               <span>{totalSearch ? `(${totalSearch})` : null}</span>
             </h3>
           </Grid>
-          <Grid item xs={12} sm={3} className={style.flexItem1}>
-            <FormControl>
-              <Select
-                variant="outlined"
-                label={t("sortby_label")}
-                id="select"
-                value={selectBookSort}
-                onChange={onChangeBookSort}
-                input={<CustomizedSelect />}
-              >
-                <MenuItem value="sort" selected disabled>
-                  {t("sortby_label")}
-                </MenuItem>
+          <Grid item xs={12} sm={6}>
+            <Grid container classes={{ root: style.justifyGrid }}>
+              {locationInput ? (
+                <span>
+                  {" "}
+                  {startItensByPage}-{endItensByPage} itens of {totalSearch}{" "}
+                  books{" "}
+                </span>
+              ) : null}
+              <Hidden xsDown>
+                {locationInput && userLimitSearch ? (
+                  <>
+                    <span>Itens by page:</span>
+                    <FormControl>
+                      <InputLabel id="itensPage" />
+                      <Select
+                        variant="outlined"
+                        label={t("itensPage_label")}
+                        id="itensPage"
+                        value={searchLimitPage}
+                        onChange={(e) => setSearchLimitPage(e.target.value)}
+                        input={<CustomizedSelect />}
+                      >
+                        <MenuItem value={10} disabled={!displayData}>
+                          {t("itensPage_10")}
+                        </MenuItem>
 
-                <MenuItem value="AZ" disabled={!displayData}>
-                  {t("sortby_AZ")}
-                </MenuItem>
-                <MenuItem value="ZA" disabled={!displayData}>
-                  {t("sortby_ZA")}
-                </MenuItem>
-              </Select>
-            </FormControl>
+                        <MenuItem value={20} disabled={!displayData}>
+                          {t("itensPage_20")}
+                        </MenuItem>
+                        <MenuItem value={30} disabled={!displayData}>
+                          {t("itensPage_30")}
+                        </MenuItem>
+                        <MenuItem value={40} disabled={!displayData}>
+                          {t("itensPage_40")}
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </>
+                ) : null}
+              </Hidden>
+              {locationInput ? (
+                <>
+                  <FormControl>
+                    <InputLabel id="filter" />
+                    <TextField
+                      select
+                      variant="outlined"
+                      label={t("filter_label")}
+                      id="filter"
+                      value={selectBookFilter}
+                      onChange={onChangeBookFilter}
+                    >
+                      <MenuItem value={t("filter_label")} selected disabled>
+                        {t("filter_label")}
+                      </MenuItem>
+
+                      <MenuItem
+                        value={t("filter_travel")}
+                        disabled={!displayData}
+                      >
+                        {t("filter_travel")}
+                      </MenuItem>
+                      <MenuItem
+                        value={t("filter_novel")}
+                        disabled={!displayData}
+                      >
+                        {t("filter_novel")}
+                      </MenuItem>
+                      <MenuItem
+                        value={t("filter_culture")}
+                        disabled={!displayData}
+                      >
+                        {t("filter_culture")}
+                      </MenuItem>
+                    </TextField>
+                  </FormControl>
+                </>
+              ) : null}
+          
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <div>
+      <Box>
         {locationInput ? (
-          <ListingBook data={listDataByPage} loading={loading} />
+          <ListingBook
+            data={displayData}
+            loading={loading}
+            hasImage={hasImage}
+            hasSubject={hasSubject}
+            displayGrid={selectedDisplay}
+          />
         ) : (
           <EmptyState />
         )}
-      </div>
+      </Box>
       <div className={style.wrapPagination}>
-        {listDataByPage ? (
+        {displayData ? (
           <Pagination
             count={totalPage}
             page={page}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-
 import style from "./App.module.css";
 import { Container } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
@@ -52,7 +51,7 @@ const App = () => {
           <h4 className={style.forTravel}>----- FOR TRAVEL -----</h4>
         </div>
 
-        <div>
+        <div className={style.inputField}>
           <form>
             <TextField
               id="userInput"
@@ -65,9 +64,9 @@ const App = () => {
             </IconButton>
           </form>
         </div>
-       <div classes={{ root: style.formControl }}>
-       <LanguadeSelection />
-       </div>
+        <div classes={{ root: style.formControl }}>
+          <LanguadeSelection />
+        </div>
       </Grid>
       {/* **** GOOD READS FOR TRAVEL COMPONENT  **** */}
       <GoodRead locationInput={location} />
