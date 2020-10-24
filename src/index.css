@@ -7,7 +7,8 @@ h6,
 div,
 span,
 p {
-  margin: 0.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 body{

@@ -22,5 +22,9 @@
   text-align: right;
 }
 .formControl{
-width: 8.5rem;
+width: 9rem;
+}
+
+.inputField{
+  margin: 1.5rem 0;
 }

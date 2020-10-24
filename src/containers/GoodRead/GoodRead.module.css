@@ -17,3 +17,18 @@
   margin: 1.5rem;
 }
 
+.justifyGrid{
+justify-content: flex-end;
+align-items: center;
+}
+
+
+@media (max-width: 600px){
+  .justifyGrid{
+    margin-top: 1rem ;
+justify-content: space-between;
+align-items: baseline;
+
+
+}
+}
