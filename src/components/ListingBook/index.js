@@ -14,8 +14,11 @@ import { Box } from "@material-ui/core";
 /** ListingBook component, presentational component 
  * to show the search result as a list
  * usage of loading skeleton  
- * @param {array} data
- * @param {boolean} loading
+ * @param {array} data information 
+ * @param {boolean} loading 
+ * @param {boolean} hasSubject  
+ * @param {boolean} hasImage 
+ * @param {boolean} displayGrid 
  */
 const ListingBook = ({
   data,
@@ -28,7 +31,6 @@ const ListingBook = ({
   const theme = useTheme();
   const screenSM = useMediaQuery(theme.breakpoints.up("sm"));
 
-
   /**
    *  Urls of cover image
    * */
@@ -39,7 +41,7 @@ const ListingBook = ({
     <Grid container spacing={2} alignContent="flex-start">
       {loading
         ? Array.from(new Array(3)).map((a, index) => (
-            <Grid Grid item md={displayGrid ? 4 : 2} key={`key${index}`}>
+            <Grid Grid item md={displayGrid ? 4 : 12} key={`key${index}`}>
               <Grid
                 container
                 alignItems={displayGrid ? "flex-start" : "center"}
@@ -78,16 +80,16 @@ const ListingBook = ({
                     width={displayGrid ? "80%" : "50%"}
                     style={{ marginBottom: 6 }}
                   />
-                  <Skeleton animation="wave" height={20} width="20%" />
+                  <Skeleton animation="wave" height={20} width="50%" />
 
-                  <Skeleton animation="wave" height={40} width="10%" />
+                  <Skeleton animation="wave" height={40} width="30%" />
                 </Grid>
               </Grid>
             </Grid>
           ))
         : data?.map((book) => {
             return (
-              <Grid item md={displayGrid ? 4 : 2} key={`${book.isbn}`}>
+              <Grid item md={displayGrid ? 4 : 12} key={`${book.isbn}`}>
                 <Grid
                   container
                   alignItems={displayGrid ? "flex-start" : "center"}
