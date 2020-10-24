@@ -12,11 +12,7 @@ import InputBase from "@material-ui/core/InputBase";
 
 export const CustomizedSelect = withStyles((theme) =>
   createStyles({
-/*     root: {
-      "label + &": {
-        marginTop: theme.spacing(3),
-      },
-    }, */
+
     input: {
       borderRadius: 4,
       position: "relative",

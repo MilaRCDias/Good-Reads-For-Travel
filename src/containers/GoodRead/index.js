@@ -17,8 +17,8 @@ import {
 } from "@material-ui/core";
 import { CustomizedSelect } from "./helpers";
 import ListingBook from "../../components/ListingBook";
-import EmptyState from "../EmptyState";
-
+import EmptyState from "../../components/EmptyState";
+import DisplaySelection from '../../components/DisplaySelection';
 
 
 /**
@@ -28,9 +28,10 @@ import EmptyState from "../EmptyState";
  *  @param {number} searchLimit 
  *  @param {boolean} hasImage
  *  @param {boolean} hasSubject
+ * @param {boolean} userLimitSearch
  */
 
-const GoodRead = ({ locationInput, hasImage,hasSubject, searchLimit=5, userLimitSearch=true}) => {
+const GoodRead = ({ locationInput, hasImage,hasSubject, searchLimit=20, userLimitSearch=true}) => {
   const [loading, setLoading] = useState(false);
   const [searchDestination, setSearchDestination] = useState("");
   const [totalSearch, setTotalSearch] = useState();
@@ -41,7 +42,7 @@ const GoodRead = ({ locationInput, hasImage,hasSubject, searchLimit=5, userLimit
   const [totalPage, setTotalPage] = useState();
   const [selectBookFilter, setSelectBookFilter] = useState("travel");
   const [searchLimitPage, setSearchLimitPage] = useState(searchLimit);
-  const [selectedDisplay , setSelectedDisplay] = useState(true)
+  const [selectedDisplay , setSelectedDisplay] = useState(false)
   const { t } = useTranslation();
 const startItensByPage = (searchLimitPage*page) - searchLimitPage + 1;
 const endItensByPage =
@@ -123,7 +124,7 @@ const endItensByPage =
   /**
    * Http request to reverse coordinates into address
    *
-   * @param {*} coordinates
+   * @param {array} coordinates
    */
   const reverseGeolocation = (coordinates) => {
     axios
@@ -152,7 +153,6 @@ const endItensByPage =
     if (!isNumber) getBooks(locationInput);
   }, [locationInput]);
 
-console.log(displayData)
 
   return (
     <div className={style.main}>
@@ -184,7 +184,7 @@ console.log(displayData)
               <Hidden xsDown>
                 {locationInput && userLimitSearch ? (
                   <>
-                    <span>Itens by page:</span>
+                    <span>{` Itens by page: `}</span>
                     <FormControl>
                       <InputLabel id="itensPage" />
                       <Select
@@ -249,9 +249,11 @@ console.log(displayData)
                       </MenuItem>
                     </TextField>
                   </FormControl>
+                  <Hidden xsDown>
+                    <DisplaySelection setSelectedDisplay={setSelectedDisplay} />
+                  </Hidden>
                 </>
               ) : null}
-          
             </Grid>
           </Grid>
         </Grid>

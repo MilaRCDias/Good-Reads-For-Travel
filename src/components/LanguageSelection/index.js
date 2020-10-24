@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useTranslation } from "react-i18next";
 
+
+/**
+ * Component for Language selection of the interface
+ */
 
 const LanguadeSelection = () => {
   const { t, i18n } = useTranslation();
@@ -19,7 +22,6 @@ const LanguadeSelection = () => {
   return (
     <div>
       <FormControl variant="outlined" >
-        <InputLabel id="language">{t("languages_label")}</InputLabel>
         <Select
           labelId="language"
           id="language"
