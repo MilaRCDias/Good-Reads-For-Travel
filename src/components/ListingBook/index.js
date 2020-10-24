@@ -5,10 +5,21 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { useTranslation } from "react-i18next";
 import style from "./ListingBook.module.css";
 
+
+/** ListingBook component, presentational component 
+ * to show the search result as a list
+ * usage of loading skeleton  
+ * @param {array} data
+ * @param {boolean} loading
+ */
 const ListingBook = ({ data, loading }) => {
   const { t } = useTranslation();
 
-  const coverUrl = process.env.REACT_APP_COVER_IMAGE_URL;
+
+/**
+ *  Urls of cover image
+ * */  
+const coverUrl = process.env.REACT_APP_COVER_IMAGE_URL;
   const defaultImage = "https://bit.ly/2TbQXhk";
 
   return (

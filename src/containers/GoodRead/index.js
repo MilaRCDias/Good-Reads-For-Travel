@@ -17,7 +17,7 @@ import EmptyState from "../EmptyState";
 /**
  *  GOOD READ WIDGET
  *  Container component of Good Reads for travel
- *
+ *  @param {array} locationInput - it accepts: (city),(city,country) or(latitude,longitude)
  */
 
 const GoodRead = ({ locationInput }) => {
@@ -148,9 +148,6 @@ const GoodRead = ({ locationInput }) => {
     setLoading(false);
   };
 
-
-  
-
   return (
     <div className={style.main}>
       <Grid
@@ -190,7 +187,6 @@ const GoodRead = ({ locationInput }) => {
               </Select>
             </FormControl>
           </Grid>
-         
         </Grid>
       </Grid>
       <div>
