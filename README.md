@@ -2,13 +2,13 @@
 
 List component for books search by location.
 
-. Responsive view
-. Grid and list view options
-. Items per page customisable by dev and selectable by user
-. Filter search within book themes
-. Pagination
-. Display view- Choose between list view or grid view.
-. Support for multi Language
+- Responsive view
+- Grid and list view options
+- Items per page customisable by dev and selectable by user
+- Filter search within book themes
+- Pagination
+- Display view- Choose between list view or grid view.
+- Support for multi Language
 
 
 ## Features
