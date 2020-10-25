@@ -1,10 +1,25 @@
 # Good Reads for Travel
 
+List component for books search by location.
 
-It accepts a string name of city or city, country, or geographic coordinates numbers. Returns the list of books in a responsive view.
+. Responsive view
+. Grid and list view options
+. Items per page customisable by dev and selectable by user
+. Filter search within book themes
+. Pagination
+. Display view- Choose between list view or grid view.
+. Support for multi Language
 
-On mobile view the cover image is hidden for better display.
 
+## Features
+Avaible in the user interface.  
+
+
+- Filter search within book themes.  
+- Choose the number limit of itens by page.  
+- Pagination.  
+- Choose between list view or grid view.  
+- Multi languages.  
 
 
 
@@ -13,8 +28,6 @@ On mobile view the cover image is hidden for better display.
 To simulate a website an example page was created using the component. 
 
 
-You can see it directly on Netifly,
-or download and run it locally.
 
 
 ##### Usage
@@ -29,12 +42,14 @@ Run the project:
 `yarn start`
 
 
+
 ## Props
 Avaible for the developer.
 
 | Name            | type   | Default | Description                                                                                |
 | --------------- | ------ | ------- | ------------------------------------------------------------------------------------------ |
-| `locationInput `  | array  |         | Location/destination to be searched accepts: city or city, country or latitude, longitude, |
+| `locationInput `  | array  |         | Location/destination to be searched accepts:
+                                            [“city”] or  [“city”, “country”] or [latitude, longitude]|
 |` hasImage  `      | bool   | true    | Defines if book's cover image will appear.                                                 |
 | `hasSubject `     | bool   | true    | Defines if book's subject will appear.                                                     |
 | `searchLimit`     | number | 20      | Defines the number of books serchead per request                                           |
@@ -44,15 +59,6 @@ Avaible for the developer.
 
 
 
-
-## Features
-Avaible in the user interface.
-
-`Filter` - Filter search within book themes.
-`Search limit by page` - Choose the number limit of itens by page.
-`Pagination` - Navigate through the results by page.
-`Display view`- Choose between list view or grid view.
-`Multi Language` - Support for languages.
 
 
 ### External API
