@@ -89,7 +89,7 @@ const GoodRead = ({ locationInput, hasImage, hasSubject, searchLimit=20, userLim
 
     axios({
       method: "get",
-      url: `http://openlibrary.org/search.json?q=${
+      url: `https://openlibrary.org/search.json?q=${
         country ? `${city}+${country}` : city
       }+${selectBookFilter}&limit=${searchLimitPage}&offset=${offset}`,
       crossdomain: true,

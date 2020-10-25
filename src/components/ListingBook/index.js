@@ -30,7 +30,6 @@ const ListingBook = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const screenSM = useMediaQuery(theme.breakpoints.up("sm"));
-
   /**
    *  Urls of cover image
    * */
@@ -41,7 +40,7 @@ const ListingBook = ({
     <Grid container spacing={2} alignContent="flex-start">
       {loading
         ? Array.from(new Array(3)).map((a, index) => (
-            <Grid Grid item md={displayGrid ? 4 : 12} key={`key${index}`}>
+            <Grid Grid item xs={displayGrid ? 4 : 12} key={`key${index}`}>
               <Grid
                 container
                 alignItems={displayGrid ? "flex-start" : "center"}
@@ -70,7 +69,7 @@ const ListingBook = ({
                 ) : null}
                 <Grid
                   item
-                  xs={displayGrid ? 12 : 3}
+                  xs={displayGrid ? 12 : 8}
                   sm={displayGrid ? 12 : 9}
                   md={displayGrid ? 12 : 8}
                 >
@@ -80,9 +79,9 @@ const ListingBook = ({
                     width={displayGrid ? "80%" : "50%"}
                     style={{ marginBottom: 6 }}
                   />
-                  <Skeleton animation="wave" height={20} width="50%" />
+                  <Skeleton animation="wave" height={20} width="95%" />
 
-                  <Skeleton animation="wave" height={40} width="30%" />
+                  <Skeleton animation="wave" height={40} width="80%" />
                 </Grid>
               </Grid>
             </Grid>
