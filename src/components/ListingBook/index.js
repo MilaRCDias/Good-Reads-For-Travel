@@ -71,8 +71,8 @@ const ListingBook = ({
                 <Grid
                   item
                   xs={displayGrid ? 12 : 3}
-                  sm={displayGrid ? 12 : 3}
-                  md={displayGrid ? 12 : 2}
+                  sm={displayGrid ? 12 : 9}
+                  md={displayGrid ? 12 : 8}
                 >
                   <Skeleton
                     animation="wave"
@@ -159,13 +159,13 @@ const ListingBook = ({
   );
 };
 
-ListingBook.defaultProps = {
-  data: [],
-};
 
 ListingBook.propTypes = {
   data: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
+  hasSubject: PropTypes.bool,
+  hasImage: PropTypes.bool,
+  displayGrid: PropTypes.bool,
 };
 
 export default ListingBook;

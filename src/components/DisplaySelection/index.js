@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from "prop-types";
 import Icon from '@material-ui/core/Icon';
 import { loadCSS } from "fg-loadcss";
 import Radio from "@material-ui/core/Radio";
@@ -8,7 +9,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 
 /**
  * Component for select the type of view display
- * @param {boolean} selectedDisplay
  * @param {function} setSelectedDisplay 
  */
 
@@ -61,6 +61,10 @@ const DisplaySelection = ({ setSelectedDisplay }) => {
       </RadioGroup>
     </div>
   );
+};
+
+DisplaySelection.propTypes = {
+  setSelectedDisplay: PropTypes.func.isRequired,
 };
 
 

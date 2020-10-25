@@ -1,0 +1,21 @@
+{
+    
+    "extends": "react-app",
+    
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "semi": "error",
+        "react/jsx-filename-extension": [1,{"extensions": [".js", ".jsx"]}],
+        "react-hooks/rules-of-hooks": "error", 
+        "no-console": "off",
+        "no-alert":"off",
+        "import/imports-first": ["error", "absolute-first"],
+
+    }
+}
