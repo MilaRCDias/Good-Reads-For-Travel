@@ -87,12 +87,13 @@ const GoodRead = ({ locationInput, hasImage, hasSubject, searchLimit=20, userLim
       ? location[1].split(" ").join("+").toLowerCase()
       : null;
 
-    axios
-      .get(
-        `http://openlibrary.org/search.json?q=${
-          country ? `${city}+${country}` : city
-        }+${selectBookFilter}&limit=${searchLimitPage}&offset=${offset}`
-      )
+    axios({
+      method: "get",
+      url: `http://openlibrary.org/search.json?q=${
+        country ? `${city}+${country}` : city
+      }+${selectBookFilter}&limit=${searchLimitPage}&offset=${offset}`,
+      headers: { "Access-Control-Allow-Origin": "*" },
+    })
       .then((response) => {
         setDisplayData(response.data.docs);
         setLoading(false);
