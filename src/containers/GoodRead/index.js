@@ -168,17 +168,19 @@ const GoodRead = ({ locationInput, hasImage, hasSubject, searchLimit=20, userLim
           <Grid item xs={12} sm={6}>
             <Grid container classes={{ root: style.justifyGrid }}>
               {displayData ? (
-                <span>
-                  {" "}
-                  {`${startItensByPage}-${endItensByPage} ${t(
-                    "page_range_itens_of"
-                  )} ${totalSearch}${t("page_range_books")} `}{" "}
-                </span>
+                <Box mr={2}>
+                  <span>
+                    {" "}
+                    {`${startItensByPage}-${endItensByPage} ${t(
+                      "page_range_itens_of"
+                    )} ${totalSearch} ${t("page_range_books")} `}{" "}
+                  </span>
+                </Box>
               ) : null}
               <Hidden xsDown>
                 {displayData && userLimitSearch ? (
                   <>
-                    <span>{` ${t("itensPage_label")}. `}</span>
+                    <span>{`- ${t("itensPage_label")} `}</span>
                     <PageLimitSelect
                       setSearchLimitPage={setSearchLimitPage}
                       searchLimitPage={searchLimitPage}
