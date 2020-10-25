@@ -27,7 +27,7 @@ Avaible in the user interface.
 
 To simulate a website an example page was created using the component. 
 
-
+You can see the example live: https://nostalgic-leavitt-3eb859.netlify.app/
 
 
 ##### Usage
