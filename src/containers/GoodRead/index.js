@@ -92,7 +92,7 @@ const GoodRead = ({ locationInput, hasImage, hasSubject, searchLimit=20, userLim
       url: `http://openlibrary.org/search.json?q=${
         country ? `${city}+${country}` : city
       }+${selectBookFilter}&limit=${searchLimitPage}&offset=${offset}`,
-      headers: { "Access-Control-Allow-Origin": "*" },
+      crossdomain: true,
     })
       .then((response) => {
         setDisplayData(response.data.docs);
