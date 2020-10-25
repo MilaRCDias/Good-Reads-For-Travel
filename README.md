@@ -2,13 +2,13 @@
 
 List component for books search by location.
 
-. Responsive view
-. Grid and list view options
-. Items per page customisable by dev and selectable by user
-. Filter search within book themes
-. Pagination
-. Display view- Choose between list view or grid view.
-. Support for multi Language
+- Responsive view
+- Grid and list view options
+- Items per page customisable by dev and selectable by user
+- Filter search within book themes
+- Pagination
+- Display view- Choose between list view or grid view.
+- Support for multi Language
 
 
 ## Features
@@ -48,8 +48,7 @@ Avaible for the developer.
 
 | Name            | type   | Default | Description                                                                                |
 | --------------- | ------ | ------- | ------------------------------------------------------------------------------------------ |
-| `locationInput `  | array  |         | Location/destination to be searched accepts:
-                                            [“city”] or  [“city”, “country”] or [latitude, longitude]|
+| `locationInput `  | array  |         | Location/destination to be searched accepts: [“city”] or  [“city”, “country”] or [latitude, longitude]|
 |` hasImage  `      | bool   | true    | Defines if book's cover image will appear.                                                 |
 | `hasSubject `     | bool   | true    | Defines if book's subject will appear.                                                     |
 | `searchLimit`     | number | 20      | Defines the number of books serchead per request                                           |
