@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import style from "./GoodRead.module.css";
@@ -6,20 +5,15 @@ import axios from "axios";
 import Pagination from "@material-ui/lab/Pagination";
 import { useTranslation } from "react-i18next";
 import {
-  Select,
-  MenuItem,
-  FormControl,
-  TextField,
-  InputLabel,
   Grid,
   Hidden,
   Box
 } from "@material-ui/core";
-import { CustomizedSelect } from "./helpers";
 import ListingBook from "../../components/ListingBook";
 import EmptyState from "../../components/EmptyState";
 import DisplaySelection from '../../components/DisplaySelection';
-
+import FilterMenu from "../../components/FilterMenu";
+import PageLimitSelect from '../../components/PageLimitSelect'
 
 /**
  *  GOOD READ WIDGET
@@ -28,35 +22,25 @@ import DisplaySelection from '../../components/DisplaySelection';
  *  @param {number} searchLimit 
  *  @param {boolean} hasImage
  *  @param {boolean} hasSubject
- * @param {boolean} userLimitSearch
+ *  @param {boolean} userLimitSearch
  */
 
-const GoodRead = ({ locationInput, hasImage,hasSubject, searchLimit=20, userLimitSearch=true}) => {
+const GoodRead = ({ locationInput, hasImage, hasSubject, searchLimit=20, userLimitSearch=true}) => {
   const [loading, setLoading] = useState(false);
   const [searchDestination, setSearchDestination] = useState("");
   const [totalSearch, setTotalSearch] = useState();
   const [displayData, setDisplayData] = useState();
-  const [destination, setDestination] = useState()
+  const [destination, setDestination] = useState();
   const [offset, setOffset] = useState(0);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState();
   const [selectBookFilter, setSelectBookFilter] = useState("travel");
   const [searchLimitPage, setSearchLimitPage] = useState(searchLimit);
-  const [selectedDisplay , setSelectedDisplay] = useState(false)
+  const [selectedDisplay, setSelectedDisplay] = useState(false);
   const { t } = useTranslation();
-const startItensByPage = (searchLimitPage*page) - searchLimitPage + 1;
-const endItensByPage =
-  page === totalPage ? totalSearch : searchLimitPage * page;
-  /**
-   *  Update data to show on page
-   *  when page are change
-   *
-   */
-  useEffect(() => {
-    if (!displayData) return;
-
-    getBooks(destination);
-  }, [offset, selectBookFilter, searchLimitPage]);
+  const startItensByPage = searchLimitPage * page - searchLimitPage + 1;
+  const endItensByPage =
+    page === totalPage ? totalSearch : searchLimitPage * page;
 
   /**
    *  Function to handle page change
@@ -72,13 +56,13 @@ const endItensByPage =
     return setOffset(offset);
   };
 
-/**
- * 
- * @param {object} event 
- */
-  const onChangeBookFilter =(event)=>{
-    setSelectBookFilter(event.target.value)
-  }
+  /**
+   *
+   * @param {object} event
+   */
+  const onChangeBookFilter = (event) => {
+    setSelectBookFilter(event.target.value);
+  };
 
   /**
    * Function to handle click to change page
@@ -89,7 +73,6 @@ const endItensByPage =
   const handleClickPage = (event, value) => {
     setPage(value);
     handlePagination(value, searchLimitPage);
-
   };
 
   /**
@@ -152,7 +135,16 @@ const endItensByPage =
     if (isNumber) reverseGeolocation(locationInput);
     if (!isNumber) getBooks(locationInput);
   }, [locationInput]);
+  /**
+   *  Update data to show on page
+   *  when page are change
+   *
+   */
+  useEffect(() => {
+    if (!displayData) return;
 
+    getBooks(destination);
+  }, [offset, selectBookFilter, searchLimitPage]);
 
   return (
     <div className={style.main}>
@@ -174,81 +166,33 @@ const endItensByPage =
           </Grid>
           <Grid item xs={12} sm={6}>
             <Grid container classes={{ root: style.justifyGrid }}>
-              {locationInput ? (
+              {displayData ? (
                 <span>
                   {" "}
-                  {startItensByPage}-{endItensByPage} itens of {totalSearch}{" "}
-                  books{" "}
+                  {`${startItensByPage}-${endItensByPage} ${t(
+                    "page_range_itens_of"
+                  )} ${totalSearch}${t("page_range_books")} `}{" "}
                 </span>
               ) : null}
               <Hidden xsDown>
-                {locationInput && userLimitSearch ? (
+                {displayData && userLimitSearch ? (
                   <>
-                    <span>{` Itens by page: `}</span>
-                    <FormControl>
-                      <InputLabel id="itensPage" />
-                      <Select
-                        variant="outlined"
-                        label={t("itensPage_label")}
-                        id="itensPage"
-                        value={searchLimitPage}
-                        onChange={(e) => setSearchLimitPage(e.target.value)}
-                        input={<CustomizedSelect />}
-                      >
-                        <MenuItem value={10} disabled={!displayData}>
-                          {t("itensPage_10")}
-                        </MenuItem>
-
-                        <MenuItem value={20} disabled={!displayData}>
-                          {t("itensPage_20")}
-                        </MenuItem>
-                        <MenuItem value={30} disabled={!displayData}>
-                          {t("itensPage_30")}
-                        </MenuItem>
-                        <MenuItem value={40} disabled={!displayData}>
-                          {t("itensPage_40")}
-                        </MenuItem>
-                      </Select>
-                    </FormControl>
+                    <span>{` ${t("itensPage_label")}. `}</span>
+                    <PageLimitSelect
+                      setSearchLimitPage={setSearchLimitPage}
+                      searchLimitPage={searchLimitPage}
+                      loading={loading}
+                    />
                   </>
                 ) : null}
               </Hidden>
               {locationInput ? (
                 <>
-                  <FormControl>
-                    <InputLabel id="filter" />
-                    <TextField
-                      select
-                      variant="outlined"
-                      label={t("filter_label")}
-                      id="filter"
-                      value={selectBookFilter}
-                      onChange={onChangeBookFilter}
-                    >
-                      <MenuItem value={t("filter_label")} selected disabled>
-                        {t("filter_label")}
-                      </MenuItem>
-
-                      <MenuItem
-                        value={t("filter_travel")}
-                        disabled={!displayData}
-                      >
-                        {t("filter_travel")}
-                      </MenuItem>
-                      <MenuItem
-                        value={t("filter_novel")}
-                        disabled={!displayData}
-                      >
-                        {t("filter_novel")}
-                      </MenuItem>
-                      <MenuItem
-                        value={t("filter_culture")}
-                        disabled={!displayData}
-                      >
-                        {t("filter_culture")}
-                      </MenuItem>
-                    </TextField>
-                  </FormControl>
+                  <FilterMenu
+                    selectBookFilter={selectBookFilter}
+                    onChangeBookFilter={onChangeBookFilter}
+                    loading={loading}
+                  />
                   <Hidden xsDown>
                     <DisplaySelection setSelectedDisplay={setSelectedDisplay} />
                   </Hidden>
@@ -285,8 +229,13 @@ const endItensByPage =
   );
 };
 
+
 GoodRead.propTypes = {
   locationInput: PropTypes.array,
+  hasImage: PropTypes.bool ,
+  hasSubject: PropTypes.bool, 
+  searchLimit: PropTypes.number, 
+  userLimitSearch: PropTypes.bool,
 };
 
 export default GoodRead;

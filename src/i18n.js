@@ -4,7 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 
 /**
- *  File with translations and setup of i18next internalization
+ *  File with translations ids of i18next internalization
  */
 
 const resources = {
@@ -28,6 +28,10 @@ const resources = {
       itensPage_20: "20",
       itensPage_30: "30",
       itensPage_40: "40",
+      page_range_itens_of: "itens of",
+      page_range_books: "books",
+     
+
     },
   },
   pt: {
@@ -68,6 +72,9 @@ const resources = {
   },
 };
 
+/**
+ * Setup of i18next multi language 
+ */
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
