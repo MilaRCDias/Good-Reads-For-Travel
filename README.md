@@ -13,6 +13,9 @@ On mobile view the cover image is hidden for better display.
 To simulate a website an example page was created using the component. 
 
 
+You can see it directly on Netifly,
+or download and run it locally.
+
 
 ##### Usage
 Download or copy the repository main brach. 
