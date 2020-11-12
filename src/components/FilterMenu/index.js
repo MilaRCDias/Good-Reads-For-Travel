@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
  * Filter Menu presentational component.
  * List of options to filter seach.
  * 
- * @param {function} selectBookFilter
+ * @param {string} selectBookFilter
  * @param {function} onChangeBookFilter
  * @param {boolean} loading  */
 
@@ -21,7 +21,7 @@ const FilterMenu = ({ selectBookFilter, onChangeBookFilter, loading }) => {
   const { t } = useTranslation();
 
   return (
-    <FormControl>
+    <FormControl style={{width: "100px"}}>
       <InputLabel id={t("filter_label")} />
       <TextField
         select
@@ -50,7 +50,7 @@ const FilterMenu = ({ selectBookFilter, onChangeBookFilter, loading }) => {
 };
 
 FilterMenu.propTypes = {
-  selectBookFilter: PropTypes.func,
+  selectBookFilter: PropTypes.string,
   onChangeBookFilter: PropTypes.func,
   loading: PropTypes.bool,
 };

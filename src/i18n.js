@@ -69,6 +69,7 @@ const resources = {
       label_portuguese: "Português",
     },
     /* insert prop for new lang */
+    
   },
 };
 
