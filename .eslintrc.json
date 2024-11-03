@@ -1,21 +1,41 @@
 {
-    
-    "extends": "react-app",
-    
+    "extends": [
+      "react-app",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:import/typescript"
+    ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true
-        }
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "project": "./tsconfig.json"
     },
+    "plugins": ["@typescript-eslint", "react-hooks", "import"],
     "rules": {
-        "semi": "error",
-        "react/jsx-filename-extension": [1,{"extensions": [".js", ".jsx"]}],
-        "react-hooks/rules-of-hooks": "error", 
-        "no-console": "off",
-        "no-alert":"off",
-        "import/imports-first": ["error", "absolute-first"],
-
+      "semi": "warn",
+      "no-console": "off",
+      "no-alert": "off",
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [".ts", ".tsx"]
+        }
+      ],
+      "react-hooks/rules-of-hooks": "error",
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-empty-function": "warn"
+    },
+    "settings": {
+      "import/resolver": {
+        "typescript": {}
+      }
     }
-}
+  }
+  

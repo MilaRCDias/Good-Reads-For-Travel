@@ -1,36 +1,29 @@
-import React, { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import Grid from "@material-ui/core/Grid";
+import { Container, TextField, IconButton } from "@material-ui/core";
+import SearchButton from "@material-ui/icons/Search";
 import style from "./App.module.css";
-import { Container } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import SearchButton from '@material-ui/icons/Search';
-  
-import GoodRead from "./containers/GoodRead";
-import LanguadeSelection from "./components/LanguageSelection";
 
-/**
- * App View is a simple page structure with search bar,
- * language selection and a component that shows result of the book search
- */
+import GoodRead from "./containers/GoodRead";
+import LanguageSelection from "./components/LanguageSelection";
+
+
 
 const App = () => {
-  const [userInput, setUserInput] = useState("Amsterdam");
-  const [location, setLocation] = useState();
-
+  const [userInput, setUserInput] = useState<string>("Amsterdam");
+  const [location, setLocation] = useState<string[] | undefined>();
 
   /**
-   *  Function to handle change user input
-   * @param {} e 
+   *  Function to handle user input change
+   * @param {ChangeEvent<HTMLInputElement>} e - The change event from the input field
    */
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
   };
 
-
-/**
- *  Function handle submit user's input
- */
+  /**
+   *  Function to handle form submission
+   */
   const onSubmit = () => {
     const value = userInput.split(",");
     setLocation(value);
@@ -42,9 +35,9 @@ const App = () => {
     <Container>
       <Grid
         container
-        justify="space-between"
+        justifyContent="space-between"
         alignItems="center"
-        className={[style.mainContainer, style.py3].join(" ")}
+        className={`${style.mainContainer} ${style.py3}`}
       >
         <div>
           <h1 className={style.logo}>GoodReads</h1>
@@ -52,20 +45,21 @@ const App = () => {
         </div>
 
         <div className={style.inputField}>
-          <form>
+          <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
             <TextField
               id="userInput"
               onChange={onChangeInput}
               value={userInput}
               variant="outlined"
+     
             />
-            <IconButton aria-label="button" onClick={onSubmit}>
+            <IconButton aria-label="search button" onClick={onSubmit}>
               <SearchButton />
             </IconButton>
           </form>
         </div>
-        <div classes={{ root: style.formControl }}>
-          <LanguadeSelection />
+        <div className={style.formControl}>
+          <LanguageSelection />
         </div>
       </Grid>
       {/* **** GOOD READS FOR TRAVEL COMPONENT  **** */}

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es6",                           // Set ECMAScript target version.
+    "lib": ["dom", "dom.iterable", "esnext"],  // Include libraries.
+    "allowJs": true,                           // Allow JavaScript files to be compiled.
+    "skipLibCheck": true,                      // Skip type checking of declaration files.
+    "esModuleInterop": true,                   // Enables `import` from CommonJS modules.
+    "allowSyntheticDefaultImports": true,      // Allows default imports from modules without default exports.
+    "strict": true,                            // Enables strict type-checking options.
+    "forceConsistentCasingInFileNames": true,  // Disallow inconsistently-cased references to the same file.
+    "module": "esnext",                        // Set module system to `ESNext`.
+    "moduleResolution": "node",                // Use Node.js module resolution.
+    "resolveJsonModule": true,                 // Allows importing JSON files.
+    "isolatedModules": true,                   // Ensures each file can be safely transpiled without depending on other files.
+    "jsx": "react-jsx",                        // Enables new JSX transform.
+    "noEmit": true                             // No output, as the project likely relies on Babel for transpilation.
+  },
+  "include": ["src","src/globals.d.ts"],                          // Include all files in the `src` directory.
+  "exclude": ["node_modules", "build"],        // Exclude the `node_modules` and `build` directories.
+  "ts-node": {
+    "files": true                              // Ensures `ts-node` uses `tsconfig.json` properly.
+  },
+  "baseUrl": "src",
+  "paths": {
+    "*": ["*"],
+    "containers/*": ["containers/*"],
+    "components/*": ["components/*"]
+  },
+}
